@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./inicio.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html">
+
+    <ui:define name="content">
+        <h:form id="f_customized">
+            <p:dataTable id="dt_customized" var="person" value="#{basic.persons}" rowKey="#{person.ID}"
+                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                         paginator="true" rows="10">
+                <p:column headerText="DNI" exportable="true">
+                    <p:outputLabel value="#{person.DNI}"/>
+                </p:column>
+                <p:column headerText="Nombres">
+                    <p:outputLabel value="#{person.NOM}"/>
+                </p:column>
+                <p:column headerText="Apellido P">
+                    <p:outputLabel value="#{person.APEPAT}"/>
+                </p:column>
+                <p:column headerText="Apellido M">
+                    <p:outputLabel value="#{person.APEMAT}"/>
+                </p:column>
+                <p:column headerText="Sexo">
+                    <p:outputLabel value="#{person.SEXPER}"/>
+                </p:column>
+                <p:column headerText="Cumpleaño" exportable="false">
+                    <p:outputLabel value="#{person.FECNAC}"/>
+                </p:column>
+            </p:dataTable>
+            <h:commandLink>
+                <p:graphicImage name="/images/xlsx.png" width="24"/>
+                <p:dataExporter type="xls" target="dt_customized" fileName="persons"
+                                postProcessor="#{customized.postProcessExcel}"
+                                />
+            </h:commandLink>
+
+            <h:commandLink>
+                <p:graphicImage name="/images/pdf.png" width="24"/>
+                <p:dataExporter type="pdf" target="dt_customized" fileName="persons" 
+                                options="#{customized.pdfo}"
+                                preProcessor="#{customized.preProcessPDF}"
+                                />
+            </h:commandLink>
+
+            <h:commandLink>
+                <p:graphicImage name="/images/csv.png" width="24"/>
+                <p:dataExporter type="csv" target="dt_customized" fileName="persons"/>
+            </h:commandLink>
+
+            <h:commandLink>
+                <p:graphicImage name="/images/xml.png" width="24"/>
+                <p:dataExporter type="xml" target="dt_customized" fileName="persons" />
+            </h:commandLink>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
